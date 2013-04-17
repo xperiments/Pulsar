@@ -1,6 +1,6 @@
-///<reference path="../../libs/html2canvas.d.ts"/>
-///<reference path="../../libs/pixi.d.ts"/>
-///<reference path='../../../src/pulsar/utils/Promises.ts'/>
+///<reference path="../../../src/libs/html2canvas.d.ts"/>
+///<reference path="../../../src/libs/pixi.d.ts"/>
+///<reference path='../../../src/pulsar/promises/Promises.ts'/>
 
 
 
@@ -26,9 +26,9 @@ module pulsar.renderers
 
 		/* MEMBER */
 		private dummyElement:HTMLElement;
-		private promise:pulsar.utils.promises.Deferred;
+		private promise:pulsar.promises.Deferred;
 
-		public render( text:string, classs:string, width:number = 100, height:number=100 ):pulsar.utils.promises.Promise
+		public render( text:string, classs:string, width:number = 100, height:number=100 ):pulsar.promises.Promise
 		{
 
 			TextField.checkInit();
@@ -39,7 +39,7 @@ module pulsar.renderers
 			this.dummyElement.style.width = width+'px';
 			this.dummyElement.style.height = height+'px';
 
-			this.promise = new pulsar.utils.promises.Deferred();
+			this.promise = new pulsar.promises.Deferred();
 
 			html2canvas( this.dummyElement,{ onrendered:(canvas:HTMLCanvasElement)=>{ this.onrendered( canvas ) }});
 			return this.promise.promise();

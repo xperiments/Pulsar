@@ -1,3 +1,4 @@
+
 module pulsar.library.binpack
 {
 	export interface IBinaryBlock

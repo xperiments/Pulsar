@@ -1,9 +1,9 @@
-///<reference path='../../../src/pulsar/library/binpack/binpack.pkg.ts'/>
+///<reference path='../../../src/pulsar/textures/BinaryPacker.ts'/>
 ///<reference path='../../../src/libs/pixi.d.ts'/>
 
 
 
-module pulsar.library
+module pulsar.textures
 {
 
 
@@ -36,13 +36,13 @@ module pulsar.library
 		h:number;
 	}
 
-	export class LibraryManager
+	export class DinamicTextureAtlas
 	{
 
-		private static LIBS:LibraryManager[] = [];
-		public static getLibrary( id:string ):LibraryManager
+		private static LIBS:DinamicTextureAtlas[] = [];
+		public static getLibrary( id:string ):DinamicTextureAtlas
 		{
-			return LibraryManager.LIBS[ id ];
+			return DinamicTextureAtlas.LIBS[ id ];
 		}
 
 
@@ -79,7 +79,7 @@ module pulsar.library
 		 */
 		constructor( public uid:string, public shapePadding:number = 2 )
 		{
-			LibraryManager.LIBS[ uid ] = this;
+			DinamicTextureAtlas.LIBS[ uid ] = this;
 
 			// Create the Canvas&Context
 			this.canvas = <HTMLCanvasElement>document.createElement('canvas');
@@ -156,8 +156,8 @@ module pulsar.library
 			pulsar.library.binpack.BinaryPacker.pack(this.blocks, mode.toString() );
 
 
-			this.canvas.width = LibraryManager.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.w );
-			this.canvas.height = LibraryManager.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.h );
+			this.canvas.width = DinamicTextureAtlas.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.w );
+			this.canvas.height = DinamicTextureAtlas.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.h );
 
 			var textureAtlas:TextureAtlas = {};
 			for( i=0, total = this.blocks.length; i<total; i++ )

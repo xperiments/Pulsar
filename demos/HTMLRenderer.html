@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DynamicTextureAtlas Demo</title>
+
+    <script src="../src/libs/html2canvas.js"></script>
+    <script src="../src/libs/pixi.js"></script>
+    <script src="../src/libs/ready.min.js"></script>
+
+
+    <script src='../src/pulsar/utils/MathUtils.js'></script>
+    <script src='../src/pulsar/textures/BinaryPacker.js'></script>
+    <script src='../src/pulsar/textures/DynamicTextureAtlas.js'></script>
+    <script src='../src/pulsar/renderers/HTMLRenderer.js'></script>
+    <script src='../src/pulsar/promises/Promise.js'></script>
+
+</head>
+<body>
+
+<script>
+
+    var countries = [
+        "Albania",
+        "Andorra",
+        "Armenia",
+        "Austria",
+        "Azerbaijan",
+        "Belarus",
+        "Belgium",
+        "Bosnia and Herzegovina",
+        "Bulgaria",
+        "Croatia",
+        "Cyprus",
+        "Czech Republic",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "France",
+        "Georgia",
+        "Germany",
+        "Greece",
+        "Hungary",
+        "Iceland",
+        "Ireland",
+        "Italy",
+        "Latvia",
+        "Liechtenstein",
+        "Lithuania",
+        "Luxembourg",
+        "Macedonia",
+        "Malta",
+        "Moldova",
+        "Monaco",
+        "Montenegro",
+        "Netherlands",
+        "Norway",
+        "Poland",
+        "Portugal",
+        "Romania",
+        "San Marino",
+        "Serbia",
+        "Slovakia",
+        "Slovenia",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "Ukraine",
+        "United Kingdom",
+        "Vatican City"
+
+    ]
+
+    function main()
+    {
+        var p = [];
+        var dinamicSheet = new pulsar.textures.DynamicTextureAtlas( "EUROPE" );
+        var time = +new Date;
+
+        for ( var i=0; i<countries.length; i++ )
+        {
+            var customRender = new pulsar.renderers.HTMLRenderer();
+            p.push( customRender.renderHTML( '<div style="background-color: #F00; border-radius: 10px; display:block; text-align:center; padding:5px;"><span style="line-height:20px;white-space:nowrap;">'+countries[i]+'</span></div>' ) );
+        }
+
+
+
+
+        pulsar.promises.Promise.when( p ).then( function( results )
+        {
+            for( var i=0; i<results.length; i++ )
+            {
+                dinamicSheet.add(countries[i].replace(/ /g,'_'), results[i] );
+            }
+            dinamicSheet.render();
+            document.body.appendChild( dinamicSheet.canvas );
+            alert( +new Date-time)
+        })
+    }
+
+    domready(main);
+
+</script>
+
+</body>
+</html>

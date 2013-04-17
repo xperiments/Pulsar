@@ -1,0 +1,1 @@
+declare function domready( fn:()=>void ):void;
