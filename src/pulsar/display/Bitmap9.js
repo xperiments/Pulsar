@@ -5,7 +5,7 @@ var pulsar;
             function Bitmap9() { }
             Bitmap9.canvas = document.createElement('canvas');
             Bitmap9.context = Bitmap9.canvas.getContext('2d');
-            Bitmap9.render = function render(image, rect, width, height) {
+            Bitmap9.render = function render(image, scale9Grid, width, height) {
                 if (typeof width === "undefined") { width = 100; }
                 if (typeof height === "undefined") { height = 100; }
                 Bitmap9.context.clearRect(0, 0, Bitmap9.canvas.width, Bitmap9.canvas.height);
@@ -13,26 +13,26 @@ var pulsar;
                 Bitmap9.canvas.height = height;
                 var rows = [
                     0, 
-                    rect.top, 
-                    rect.bottom, 
+                    scale9Grid.top, 
+                    scale9Grid.bottom, 
                     image.height
                 ];
                 var cols = [
                     0, 
-                    rect.left, 
-                    rect.right, 
+                    scale9Grid.left, 
+                    scale9Grid.right, 
                     image.width
                 ];
                 var dRows = [
                     0, 
-                    rect.top, 
-                    height - (image.height - rect.bottom), 
+                    scale9Grid.top, 
+                    height - (image.height - scale9Grid.bottom), 
                     height
                 ];
                 var dCols = [
                     0, 
-                    rect.left, 
-                    width - (image.width - rect.right), 
+                    scale9Grid.left, 
+                    width - (image.width - scale9Grid.right), 
                     width
                 ];
                 var origin;
@@ -49,7 +49,8 @@ var pulsar;
                 return resultImage;
             };
             return Bitmap9;
-        })();        
+        })();
+        display.Bitmap9 = Bitmap9;        
     })(pulsar.display || (pulsar.display = {}));
     var display = pulsar.display;
 })(pulsar || (pulsar = {}));

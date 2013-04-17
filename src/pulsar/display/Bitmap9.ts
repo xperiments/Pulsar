@@ -12,30 +12,30 @@
 ///<reference path='../../../src/pulsar/geom/Rectangle.ts'/>
 module pulsar.display
 {
-	class Bitmap9
+	export class Bitmap9
 	{
 		/**
 		 * A static canvas used to draw the resulting scale9 image
 		 * @type {HTMLCanvasElement}
 		 */
-		static canvas:HTMLCanvasElement = <HTMLCanvasElement>document.createElement('canvas');
+		private static canvas:HTMLCanvasElement = <HTMLCanvasElement>document.createElement('canvas');
 
 		/**
 		 * A static reference to our drawing canvas
 		 * @type {CanvasRenderingContext2D}
 		 */
-		static context:CanvasRenderingContext2D = <CanvasRenderingContext2D>Bitmap9.canvas.getContext('2d');
+		private static context:CanvasRenderingContext2D = <CanvasRenderingContext2D>Bitmap9.canvas.getContext('2d');
 
 
 		/**
 		 * Renders an image from a scale9 base texture
 		 * @param image The original scale9 texture
-		 * @param rect  Rectangle representing the scale9 corners
+		 * @param scale9Grid  Rectangle representing the scale9 corners
 		 * @param width Width of the resulting scaled image
 		 * @param height Height of the resulting scaled image
 		 * @returns {HTMLImageElement}
 		 */
-		static render( image:HTMLImageElement, rect:pulsar.geom.Rectangle, width:number = 100, height:number = 100 ):HTMLImageElement
+		public static render( image:HTMLImageElement, scale9Grid:pulsar.geom.Rectangle, width:number = 100, height:number = 100 ):HTMLImageElement
 		{
 			// clear canvas
 			context.clearRect(0,0,canvas.width,canvas.height);
@@ -45,12 +45,12 @@ module pulsar.display
 			canvas.height = height;
 
 			// define bitmap source areas
-			var rows : number[] = [0, rect.top, rect.bottom, image.height];
-			var cols : number[] = [0, rect.left, rect.right, image.width];
+			var rows : number[] = [0, scale9Grid.top, scale9Grid.bottom, image.height];
+			var cols : number[] = [0, scale9Grid.left, scale9Grid.right, image.width];
 
 			// define bitmap destination areas
-			var dRows : number[] = [0, rect.top, height - ( image.height - rect.bottom ), height];
-			var dCols : number[] = [0, rect.left, width - ( image.width - rect.right ), width];
+			var dRows : number[] = [0, scale9Grid.top, height - ( image.height - scale9Grid.bottom ), height];
+			var dCols : number[] = [0, scale9Grid.left, width - ( image.width - scale9Grid.right ), width];
 
 			// rectangle containing current origin area
 			var origin : pulsar.geom.Rectangle;

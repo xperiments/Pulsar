@@ -1,5 +1,6 @@
-///<reference path='../../../src/pulsar/textures/BinaryPacker.ts'/>
 ///<reference path='../../../src/libs/pixi.d.ts'/>
+///<reference path='../../../src/pulsar/textures/BinaryPacker.ts'/>
+///<reference path='../../../src/pulsar/utils/MathUtils.ts'/>
 
 
 
@@ -14,7 +15,6 @@ module pulsar.textures
 
 	export interface TextureAtlasElement
 	{
-
 		frame: TextureAtlasFrame;
 		rotated:bool;
 		trimmed:bool;
@@ -36,13 +36,14 @@ module pulsar.textures
 		h:number;
 	}
 
-	export class DinamicTextureAtlas
+	export class DynamicTextureAtlas
 	{
+		//static BinaryBlock: { new( x:number, y:number, w:number, h:number, data:any, id:string ): pulsar.library.binpack.BinaryBlock; };
 
-		private static LIBS:DinamicTextureAtlas[] = [];
-		public static getLibrary( id:string ):DinamicTextureAtlas
+		private static LIBS:DynamicTextureAtlas[] = [];
+		public static getLibrary( id:string ):DynamicTextureAtlas
 		{
-			return DinamicTextureAtlas.LIBS[ id ];
+			return DynamicTextureAtlas.LIBS[ id ];
 		}
 
 
@@ -53,14 +54,14 @@ module pulsar.textures
 		private blocks:pulsar.library.binpack.IBinaryBlock[] = [];
 
 		/**
-		 * Contains the resulting Canvas Element that holds our texture
-		 */
-		private canvas:HTMLCanvasElement;
-
-		/**
 		 * Contains the Canvas context
 		 */
 		private context:CanvasRenderingContext2D;
+
+		/**
+		 * Contains the resulting Canvas Element that holds our texture
+		 */
+		public canvas:HTMLCanvasElement;
 
 		/**
 		 * The resulting PIXI.BaseTexture
@@ -79,7 +80,8 @@ module pulsar.textures
 		 */
 		constructor( public uid:string, public shapePadding:number = 2 )
 		{
-			DinamicTextureAtlas.LIBS[ uid ] = this;
+
+			DynamicTextureAtlas.LIBS[ uid ] = this;
 
 			// Create the Canvas&Context
 			this.canvas = <HTMLCanvasElement>document.createElement('canvas');
@@ -155,9 +157,8 @@ module pulsar.textures
 			// Packs & Order the image blocks
 			pulsar.library.binpack.BinaryPacker.pack(this.blocks, mode.toString() );
 
-
-			this.canvas.width = DinamicTextureAtlas.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.w );
-			this.canvas.height = DinamicTextureAtlas.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.h );
+			this.canvas.width = pulsar.utils.MathUtils.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.w );
+			this.canvas.height = pulsar.utils.MathUtils.getNextPowerOfTwo( pulsar.library.binpack.BinaryPacker.root.h );
 
 			var textureAtlas:TextureAtlas = {};
 			for( i=0, total = this.blocks.length; i<total; i++ )
@@ -165,7 +166,7 @@ module pulsar.textures
 				var cur:pulsar.library.binpack.IBinaryBlock = this.blocks[i];
 
 				// create Atlas Element
-				textureAtlas[ cur.id ] = <TextureAtlasElement>
+				textureAtlas[ this.uid+'.'+cur.id ] = <TextureAtlasElement>
 				{
 					frame: 				<TextureAtlasFrame>{ x:cur.fit.x+this.shapePadding, y:cur.fit.y+this.shapePadding, w:cur.fit.w, h:cur.fit.h },
 					rotated:			false,
@@ -186,15 +187,15 @@ module pulsar.textures
 			for ( t in textureAtlas)
 			{
 				var rect:TextureAtlasFrame = textureAtlas[t].frame;
+
 				if (rect)
 				{
-					var textureID:string = this.uid+'.'+t;
-					PIXI.TextureCache[ textureID ] = new PIXI.Texture( this.texture, <PIXI.Rectangle>{x:rect.x, y:rect.y, width:rect.w, height:rect.h});
+					PIXI.TextureCache[ t ] = new PIXI.Texture( this.texture, <PIXI.Rectangle>{x:rect.x, y:rect.y, width:rect.w, height:rect.h});
 
-					if(textureAtlas[ textureID ].trimmed)
+					if(textureAtlas[ t ].trimmed)
 					{
-						PIXI.TextureCache[ textureID ].realSize = textureAtlas[t].spriteSourceSize;
-						PIXI.TextureCache[ textureID ].trim.x = 0// (realSize.x / rect.w)
+						PIXI.TextureCache[ t ].realSize = textureAtlas[t].spriteSourceSize;
+						PIXI.TextureCache[ t ].trim.x = 0;
 
 					}
 				}
@@ -211,23 +212,5 @@ module pulsar.textures
 
 		}
 
-		/**
-		 * Returns the next power of two that is equal to or bigger than the specified num.
-		 * @param num
-		 * @returns {number}
-		 */
-		public static getNextPowerOfTwo( num:number ):number
-		{
-			if (num > 0 && (num & (num - 1)) == 0)
-			{
-				return num;
-			}
-			else
-			{
-				var result:number = 1;
-				while (result < num) result <<= 1;
-				return result;
-			}
-		}
 	}
 }

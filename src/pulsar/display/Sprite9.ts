@@ -1,3 +1,14 @@
+/**
+ *
+ *	Sprite9 class. An implementation of the scale9grid from AS3 for use in elements that change his size in runtime
+ *
+ *	@author		Pedro Casaubon
+ *	@version	01.0
+ * 	@date       16/04/2014
+ * 	@link		http://www.xperiments.es
+ *
+ */
+
 ///<reference path='../../../src/libs/pixi.d.ts'/>
 ///<reference path='../../../src/pulsar/geom/Rectangle.ts'/>
 module pulsar.display

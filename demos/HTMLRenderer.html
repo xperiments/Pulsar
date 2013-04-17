@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <title>DynamicTextureAtlas Demo</title>
 
     <script src="../src/libs/html2canvas.js"></script>
@@ -79,7 +80,7 @@
         for ( var i=0; i<countries.length; i++ )
         {
             var customRender = new pulsar.renderers.HTMLRenderer();
-            p.push( customRender.renderHTML( '<div style="background-color: #F00; border-radius: 10px; display:block; text-align:center; padding:5px;"><span style="line-height:20px;white-space:nowrap;">'+countries[i]+'</span></div>' ) );
+            p.push( customRender.renderHTML( '<div style="background-color: #F00; border-radius: 5px; display:block; text-align:center; padding:5px; border:1px solid #000;"><span style="line-height:20px;white-space:nowrap;">'+countries[i]+'</span></div>' ) );
         }
 
 
