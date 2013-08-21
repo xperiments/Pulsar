@@ -2,7 +2,7 @@
  *
  * Typescript declaration file for pixi.js framework
  * User: xperiments
- * Date: 21/08/13
+ * Date: 14/03/13
  */
 ///<reference path="webgl.d.ts"/>
 
@@ -18,7 +18,7 @@ declare module PIXI
 	export var FrameCache: {};
 	export var blendModes:{ NORMAL:number; SCREEN:number; };
 
-	
+
 	/* MODULE FUNCTIONS */
 	export function autoDetectRenderer(width: number, height: number, view?: HTMLCanvasElement, transparent?: boolean, antialias?: boolean): IPixiRenderer;
 	export function FilterBlock( mask:Graphics ):void;
@@ -26,18 +26,18 @@ declare module PIXI
 
 
 	/*INTERFACES*/
-	
+
 	export interface IBasicCallback
 	{
 		():void
 	}
-	
+
 	export interface IEvent
 	{
 		type: string;
 		content: any;
 	}
-	
+
 	export interface IHitArea
 	{
 		contains(x: number, y: number):boolean;
@@ -47,7 +47,7 @@ declare module PIXI
 	{
 		(interactionData: InteractionData):void
 	}
-	
+
 	export interface IPixiRenderer
 	{
 		view: HTMLCanvasElement;
@@ -69,7 +69,7 @@ declare module PIXI
 		strokeThickness?: number;
 		wordWrap?: boolean;
 		wordWrapWidth?:number;
-	}	
+	}
 
 
 
@@ -203,7 +203,7 @@ declare module PIXI
 		contains(x: number, y: number):boolean;
 		getBounds():Rectangle;
 	}
-	
+
 	export class EventTarget
 	{
 		addEventListener(type: string, listener: (event: IEvent) => void );
@@ -226,6 +226,11 @@ declare module PIXI
 		lineStyle(lineWidth: number, color: number, alpha: number): void;
 		lineTo(x: number, y: number): void;
 		moveTo(x: number, y: number): void;
+
+		static POLY:number;
+		static RECT:number;
+		static CIRC:number;
+		static ELIP:number;
 	}
 
 	export class ImageLoader extends EventTarget
@@ -344,7 +349,7 @@ declare module PIXI
 		constructor(url: string, crossorigin: boolean);
 		load();
 	}
-	
+
 	export class Stage extends DisplayObjectContainer
 	{
 		interactive:boolean;
