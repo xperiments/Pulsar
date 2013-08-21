@@ -110,7 +110,7 @@ module pulsar.geom
 				y *= f;
 			}
 			return new Point(x, y);
-		};
+		}
 
 		/**
 		 * Offsets the Point object by the specified amount.
