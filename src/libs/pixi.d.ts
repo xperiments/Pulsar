@@ -1,11 +1,9 @@
-/**
- *
- * Typescript declaration file for pixi.js framework
- * User: xperiments
- * Date: 14/03/13
- */
-///<reference path="webgl.d.ts"/>
+// Type definitions for PIXI 1.3
+// Project: https://github.com/GoodBoyDigital/pixi_old.js/
+// Definitions by: xperiments <http://github.com/xperiments>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
 
+///<reference path="webgl.d.ts"/>
 declare module PIXI
 {
 
@@ -25,7 +23,11 @@ declare module PIXI
 	export function MaskFilter( graphics:Graphics ):void;
 
 
-	/*INTERFACES*/
+	/* DEBUG METHODS */
+
+	export function runList( x ):void;
+
+		/*INTERFACES*/
 
 	export interface IBasicCallback
 	{
@@ -80,7 +82,7 @@ declare module PIXI
 		assetURLs: string[];
 		onComplete: IBasicCallback;
 		onProgress: IBasicCallback;
-		constructor(assetURLs: string[], crossorigin:boolean );
+		constructor(assetURLs: string[], crossorigin?:boolean );
 		load(): void;
 	}
 
@@ -94,7 +96,7 @@ declare module PIXI
 		constructor(source: HTMLCanvasElement);
 		destroy():void;
 
-		static fromImage(imageUrl: string, crossorigin:boolean ): BaseTexture;
+		static fromImage(imageUrl: string, crossorigin?:boolean ): BaseTexture;
 	}
 
 	export class BitmapFontLoader extends EventTarget
@@ -103,12 +105,14 @@ declare module PIXI
 		crossorigin:boolean;
 		texture:Texture;
 		url:string;
-		constructor(url: string, crossorigin: boolean);
+		constructor(url: string, crossorigin?: boolean);
 		load():void;
 	}
 
 	export class BitmapText extends DisplayObjectContainer
 	{
+		width:number;
+		height:number;
 		constructor(text: string, style: IBitmapTextStyle);
 		setStyle(style: IBitmapTextStyle): void;
 		setText(text: string): void;
@@ -148,6 +152,7 @@ declare module PIXI
 	{
 		alpha: number;
 		buttonMode: boolean;
+		filter:boolean;
 		hitArea: IHitArea;
 		parent: DisplayObjectContainer;
 		pivot: Point;
@@ -166,10 +171,12 @@ declare module PIXI
 		mouseover: IInteractionDataCallback;
 		mouseup: IInteractionDataCallback;
 		mouseupoutside: IInteractionDataCallback;
+		mousemove: IInteractionDataCallback;
 		tap: IInteractionDataCallback;
 		touchend: IInteractionDataCallback;
 		touchendoutside: IInteractionDataCallback;
 		touchstart: IInteractionDataCallback;
+		touchmove: IInteractionDataCallback;
 
 		//deprecated
 		setInteractive(interactive: boolean): void;
@@ -217,13 +224,13 @@ declare module PIXI
 		lineColor:string;
 		constructor();
 
-		beginFill(color: number, alpha: number): void;
+		beginFill(color?: number, alpha?: number): void;
 		clear(): void;
 		drawCircle(x: number, y: number, radius: number): void;
 		drawElipse(x: number, y: number, width: number, height: number): void;
 		drawRect(x: number, y: number, width: number, height: number): void;
 		endFill(): void;
-		lineStyle(lineWidth: number, color: number, alpha: number): void;
+		lineStyle(lineWidth?: number, color?: number, alpha?: number ): void;
 		lineTo(x: number, y: number): void;
 		moveTo(x: number, y: number): void;
 
@@ -236,7 +243,7 @@ declare module PIXI
 	export class ImageLoader extends EventTarget
 	{
 		texture:Texture;
-		constructor(url: string, crossorigin: boolean);
+		constructor(url: string, crossorigin?: boolean);
 		load(): void;
 	}
 
@@ -264,7 +271,7 @@ declare module PIXI
 		crossorigin: boolean;
 		baseUrl:string;
 		loaded:boolean;
-		constructor(url: string, crossorigin: boolean);
+		constructor(url: string, crossorigin?: boolean);
 		load(): void;
 	}
 
@@ -346,7 +353,7 @@ declare module PIXI
 		baseUrl:string;
 		texture:Texture;
 		frames:Object;
-		constructor(url: string, crossorigin: boolean);
+		constructor(url: string, crossorigin?: boolean);
 		load();
 	}
 
@@ -354,7 +361,7 @@ declare module PIXI
 	{
 		interactive:boolean;
 		interactionManager:InteractionManager;
-		constructor(backgroundColor: number, interactive: boolean);
+		constructor(backgroundColor: number, interactive?: boolean);
 		getMousePosition(): Point;
 		setBackgroundColor(backgroundColor: number): void;
 	}
@@ -372,6 +379,7 @@ declare module PIXI
 		baseTexture: BaseTexture;
 		frame: Rectangle;
 		trim:Point;
+		render( displayObject:DisplayObject, position:Point, clear:boolean ):void;
 		constructor(baseTexture: BaseTexture, frame?: Rectangle);
 		destroy(destroyBase:boolean):void;
 		setFrame(frame: Rectangle): void;
